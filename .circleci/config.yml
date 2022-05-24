@@ -1,0 +1,45 @@
+version: 2.1
+
+executors:
+  build-base:
+    docker:
+      - image: cimg/rust:1.61
+    resource_class: small
+
+jobs:
+  test:
+    executor: build-base
+    steps:
+      - checkout
+      - run:
+          name: cargo test
+          command: "echo Hello, World!"
+  build:
+    executor: build-base
+    steps:
+      - checkout
+      - when:
+          condition:
+            not:
+              equal: [ main, << pipeline.git.branch >> ]
+          steps:
+            - run:
+                name: cargo check
+                command: "cargo check"
+      - when:
+          condition:
+            equal: [ main, << pipeline.git.branch >> ]
+          steps:
+            - run:
+                name: cargo build --release
+                command: "cargo build --release"
+            - store_artifacts:
+                path: target
+
+workflows:
+  test-and-build:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test

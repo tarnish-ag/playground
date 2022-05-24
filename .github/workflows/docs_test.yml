@@ -1,0 +1,14 @@
+name: Docs Test
+on: [push, pull_request, workflow_call]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/workflows/docs/setup
+      - name: Run tests
+        run: |
+          cd docs
+          mdbook test
