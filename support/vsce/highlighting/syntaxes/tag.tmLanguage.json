@@ -1,0 +1,166 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Tarnish",
+	"patterns": [
+		{
+			"include": "#comment"
+		},
+		{
+			"include": "#storage"
+		},
+		{
+			"include": "#keyword"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#variable"
+		},
+		{
+			"include": "#constant"
+		},
+		{
+			"include": "#support"
+		}
+	],
+	"repository": {
+		"keyword": {
+			"patterns": [
+				{
+					"name": "keyword.operator.tarnish",
+					"match": "(==|\\:\\:=|[|]|\\:|\\&\\&)"
+				},
+				{
+					"name": "keyword.control.tarnish",
+					"match": "\\b(match)\\b"
+				}
+			]
+		},
+		"storage": {
+			"patterns": [
+				{
+					"name": "storage.type.declarations.tarnish",
+					"match": "\\b(grammar|terminal|enum|trait|nonterminal)\\b"
+				},
+				{
+					"name": "storage.modifier.tarnish",
+					"match": "\\b(concrete|abstract|ignore)\\b"
+				},
+				{
+					"name": "storage.type.externals.tarnish",
+					"match": "\\b(with)\\b"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"name": "string.quoted.double.tarnish",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+						{
+							"include": "#escaped"
+						},
+						{
+							"name": "constant.character.escape",
+							"match": "."
+						}
+					]
+				},
+				{
+					"name": "string.regexp.tarnish",
+					"begin": "/",
+					"end": "/",
+					"patterns": [
+						{
+							"include": "#escaped"
+						},
+						{
+							"name": "constant.character.escape",
+							"match": "."
+						}
+					]
+				}
+			],
+			"repository": {
+				"escaped": {
+					"name": "constant.character.escape.tarnish",
+					"match": "\\\\([\\\\\"/'nrbtf]|[0-9]{1,3}|u[0-9]{1,4})"
+				}
+			}
+		},
+		"comment": {
+			"patterns": [
+				{
+					"name": "comment.line.tarnish",
+					"begin": "//",
+					"end": "\n",
+					"patterns": [
+						{
+							"name": "comment.tarnish",
+							"match": "."
+						}
+					]
+				},
+				{
+					"name": "comment.block.tarnish",
+					"begin": "/\\*",
+					"end": "\\*/",
+					"patterns": [
+						{
+							"name": "comment.tarnish",
+							"match": "."
+						}
+					]
+				}
+			]
+		},
+		"constant": {
+			"patterns": [
+				{
+					"name": "constant.numeric.tarnish",
+					"match": "(\\b([0-9]+|0[xX][0-9a-fA-F]+)[Ll]?\\b|\\b(([0-9]+[Ee][-]?[0-9]+|([0-9]*\\.[0-9]+|[0-9]+\\.)([Ee][-]?[0-9]+)?)[fFdD]?|[0-9]+[FfDd]))"
+				},
+				{
+					"name": "constant.language.tarnish",
+					"match": "\\b(true|false)\\b"
+				},
+				{
+					"name": "constant.character.escape.tarnish",
+					"match": "\\\\([\\\\\"/'nrbtf]|[0-9]{1,3}|u[0-9]{1,4})"
+				}
+			]
+		},
+		"variable": {
+			"patterns": [
+				{
+					"name": "variable.language.tarnish",
+					"match": "@\\w+\\b"
+				},
+				{
+					"name": "variable.language.tarnish",
+					"match": "\\b(self)\\b"
+				}
+			]
+		},
+		"support": {
+			"patterns": [
+				{
+					"name": "support.function.tarnish",
+					"match": "\\b(print|toString|toInt|toFloat|length|reference|substring|indexOf|error|cast|left|right|partitionEithers|hackUnparse|print|readLineStdin|exit|mkdir|system|writeFile|appendFile|fileTime|isFile|isDirectory|readFile|cwd|envVar|listContents|deleteFile|deleteTree|copyFile|touchFile|error|unsafeIO|genInt|genRand|unsafeTrace|dirNameInFilePath|fileNameInFilePath|splitFileNameAndExtension|map|foldr|foldl|foldr1|foldl1|filter|partition|containsBy|nubBy|removeBy|removeAllBy|last|drop|take|dropWhile|takeWhile|takeUntil|positionOf|positionOfHelper|repeat|zipWith|reverse|sortBy|groupBy|intersperse|unionBy|intersectBy|unionsBy|nil|cons|append|null|listLength|head|tail|locationLte|fromMaybe|orElse|consMaybe|catMaybes|fst|snd|lookupBy|lookupAllBy|unzipPairs|parseTreeOrDieWithoutStackTrace|implode|explode|indexOf|lastIndexOf|substring|startsWith|endsWith|substitute|replicate|isDigit|isAlpha|isSpace|isLower|isUpper|toIntSafe|compareString|stringConcat|stringEq|stringLte|runIO|evalIO|unsafeEvalIO|bindList|returnList|bindMaybe|returnMaybe|runState|evalState|ioval)\\b"
+				},
+				{
+					"name": "support.class.tarnish",
+					"match": "\\b(Some|None|Ok|Err)\\b"
+				},
+				{
+					"name": "support.type.tarnish",
+					"match": "\\b(bool|float|str|int)\\b"
+				}
+			]
+		}
+	},
+	"scopeName": "source.tag"
+}

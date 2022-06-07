@@ -1,0 +1,37 @@
+{
+    "name": "tarnish-highlighting",
+    "displayName": "Tarnish Highlighting",
+    "description": "",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.67.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "tag",
+                "aliases": [
+                    "Tarnish",
+                    "tag"
+                ],
+                "extensions": [
+                    ".tag"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "tag",
+                "scopeName": "source.tag",
+                "path": "./syntaxes/tag.tmLanguage.json"
+            }
+        ]
+    },
+    "devDependencies": {
+        "js-yaml": "^4.1.0"
+    }
+}
