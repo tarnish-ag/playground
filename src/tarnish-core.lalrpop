@@ -1,0 +1,31 @@
+use crate::parser::tree::{lexical::Lexical, val::Val}
+
+grammar;
+
+Term 
+
+// lexical
+Number : Lexical = {
+    r"[0-9]+" => Lexical::Const(Val::from(i64::from_str(<>).unwrap())),
+    r"0[Bb][01]+" => Lexical::Const(Val::from(i64::from_str_radix(<>, 2).unwrap())),
+    r"0[Oo0][0-7]+" => Lexical::Const(Val::from(i64::from_str_radix(<>, 8).unwrap())),
+    r"0[Xx][0-9A-Fa-f]+" => Lexical::Const(Val::from(i64::from_str_radix(<>, 16).unwrap())),
+    r"[0-9]+\.[0-9]+" => Lexical::Const(Val::from(f64::from_str(<>).unwrap())),
+};
+Bool : Lexical = {
+    "true" => Lexical::Const(Val::from(true)),
+    "false" => Lexical::Const(Val::from(false)),
+};
+StringLiteral : Lexical = r#""([^"]|(\\"))*""# => Lexical::Const(Val::from(<>[1..(<>.len()-1)].to_string()));
+// TODO: list & tuple types
+Identifier : Lexical = Name => Lexical::Id(<>) ;
+Name : String = r#"[_a-zA-Z][_0-9a-zA-Z]*"# => <>.to_string() ;
+
+// comments
+match {
+    r"\s*" => { }, // The default whitespace skipping is disabled an `ignore pattern` is specified
+    r"//[^\n\r]*[\n\r]*" => { }, // Skip `// comments`
+    r"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/" => { },  // Skip `/* comments */`
+} else {
+    _
+}

@@ -11,18 +11,18 @@ enum Expr {
 
 trait ExprT { e : Expr }
 
-// template, not parsed unless instantiated, could be an extention instead of core, would still be nice in core
-concrete nonterminal Comma<T> ::=
+// template, not parsed unless instantiated, could be an extension instead of core, would still be nice in core
+production Comma<T> ::=
     (e : T) {
         self.lst : [T] = [e] ;
     } |  (hd : T) "," (tl : Comma<T>) {
         self.lst : [T] = [hd, ...tl.lst] ;
     }
 
-// `=` for aliasing
-concrete nonterminal Arguments = Comma<Expr> ;
+// `=` instead of `::=` for aliasing?
+production Arguments ::= Comma<Expr> ;
 
-concrete nonterminal Primary : ExprT ::=
+production Primary : ExprT ::=
     (term : Boolean)
       | (term : Nil)
       | (term : String)
